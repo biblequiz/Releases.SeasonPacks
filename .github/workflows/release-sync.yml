@@ -1,6 +1,11 @@
 name: sync-releases-biblequiz
 on:
   workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Release Tag'
+        required: true
+        type: string
   release:
     types: [prereleased, released, deleted, unpublished]
 jobs:
@@ -9,6 +14,7 @@ jobs:
     with:
       product_name: SeasonPacks
       commit_changes: true
+      tag_name: ${{ inputs.tag_name || github.event.release.tag_name }}
     secrets:
       BOT_APP_ID: ${{ secrets.BOT_APP_ID }}
       BOT_APP_PRIVATE_KEY: ${{ secrets.BOT_APP_PRIVATE_KEY }}
